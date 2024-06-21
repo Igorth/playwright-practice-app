@@ -1,25 +1,25 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
 
-import { FormsComponent } from './forms.component';
-import { FormLayoutsComponent } from './form-layouts/form-layouts.component';
-import { DatepickerComponent } from './datepicker/datepicker.component';
+import { FormsComponent } from "./forms.component";
+import { FormLayoutsComponent } from "./form-layouts/form-layouts.component";
+import { DatepickerComponent } from "./datepicker/datepicker.component";
 
 const routes: Routes = [
   {
-    path: '',
+    path: "",
     component: FormsComponent,
     children: [
       {
-        path: 'layouts',
+        path: "layouts",
         component: FormLayoutsComponent,
       },
       {
-        path: 'layouts',
+        path: "layouts",
         component: FormLayoutsComponent,
       },
       {
-        path: 'datepicker',
+        path: "datepicker",
         component: DatepickerComponent,
       },
     ],
@@ -27,13 +27,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forChild(routes),
-  ],
-  exports: [
-    RouterModule,
-  ],
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
 })
-export class FormsRoutingModule {
-}
-
+export class FormsRoutingModule {}

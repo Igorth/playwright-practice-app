@@ -1,9 +1,8 @@
-@import '../../../@theme/styles/themes';
-@import 'bootstrap/scss/mixins/breakpoints';
-@import '@nebular/theme/styles/global/breakpoints';
+@import "../../../@theme/styles/themes";
+@import "bootstrap/scss/mixins/breakpoints";
+@import "@nebular/theme/styles/global/breakpoints";
 
 @include nb-install-component() {
-
   nb-tabset {
     display: flex;
     flex-direction: column;
@@ -52,14 +51,14 @@
 
       &.temperature::before {
         position: absolute;
-        content: '°';
+        content: "°";
         top: 0;
         right: -0.85rem;
       }
 
       &.humidity::before {
         position: absolute;
-        content: '%';
+        content: "%";
         top: 3px;
         right: -1.6rem;
         font-size: 0.7em;

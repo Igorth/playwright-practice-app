@@ -1,14 +1,14 @@
-import { Component, HostBinding, Input, OnDestroy } from '@angular/core';
-import { PlayerService, Track } from '../../../../@core/utils/player.service';
+import { Component, HostBinding, Input, OnDestroy } from "@angular/core";
+import { PlayerService, Track } from "../../../../@core/utils/player.service";
 
 @Component({
-  selector: 'ngx-player',
-  styleUrls: ['./player.component.scss'],
-  templateUrl: './player.component.html',
+  selector: "ngx-player",
+  styleUrls: ["./player.component.scss"],
+  templateUrl: "./player.component.html",
 })
 export class PlayerComponent implements OnDestroy {
   @Input()
-  @HostBinding('class.collapsed')
+  @HostBinding("class.collapsed")
   collapsed: boolean;
 
   track: Track;
@@ -22,7 +22,7 @@ export class PlayerComponent implements OnDestroy {
 
   ngOnDestroy() {
     this.player.pause();
-    this.player.src = '';
+    this.player.src = "";
     this.player.load();
   }
 
@@ -75,11 +75,11 @@ export class PlayerComponent implements OnDestroy {
   }
 
   setProgress(duration: number) {
-    this.player.currentTime = this.player.duration * duration / 100;
+    this.player.currentTime = (this.player.duration * duration) / 100;
   }
 
   getProgress(): number {
-    return this.player.currentTime / this.player.duration * 100 || 0;
+    return (this.player.currentTime / this.player.duration) * 100 || 0;
   }
 
   private createPlayer() {

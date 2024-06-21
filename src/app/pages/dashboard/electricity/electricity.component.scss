@@ -1,9 +1,8 @@
-@import '../../../@theme/styles/themes';
-@import 'bootstrap/scss/mixins/breakpoints';
-@import '@nebular/theme/styles/global/breakpoints';
+@import "../../../@theme/styles/themes";
+@import "bootstrap/scss/mixins/breakpoints";
+@import "@nebular/theme/styles/global/breakpoints";
 
 @include nb-install-component() {
-
   .cards-container {
     display: flex;
     flex-direction: row;

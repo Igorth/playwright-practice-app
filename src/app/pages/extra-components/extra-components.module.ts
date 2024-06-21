@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule } from "@angular/core";
 import {
   NbActionsModule,
   NbAlertModule,
@@ -13,25 +13,24 @@ import {
   NbSelectModule,
   NbSpinnerModule,
   NbTabsetModule,
-} from '@nebular/theme';
+} from "@nebular/theme";
 
-import { ThemeModule } from '../../@theme/theme.module';
-import { ExtraComponentsRoutingModule } from './extra-components-routing.module';
+import { ThemeModule } from "../../@theme/theme.module";
+import { ExtraComponentsRoutingModule } from "./extra-components-routing.module";
 
 // components
-import { ExtraComponentsComponent } from './extra-components.component';
-import { CalendarComponent } from './calendar/calendar.component';
-import { DayCellComponent } from './calendar/day-cell/day-cell.component';
-import { NebularFormInputsComponent } from './form-inputs/nebular-form-inputs.component';
-import { NebularSelectComponent } from './form-inputs/nebular-select/nebular-select.component';
-
+import { ExtraComponentsComponent } from "./extra-components.component";
+import { CalendarComponent } from "./calendar/calendar.component";
+import { DayCellComponent } from "./calendar/day-cell/day-cell.component";
+import { NebularFormInputsComponent } from "./form-inputs/nebular-form-inputs.component";
+import { NebularSelectComponent } from "./form-inputs/nebular-select/nebular-select.component";
 
 const COMPONENTS = [
   ExtraComponentsComponent,
   CalendarComponent,
   DayCellComponent,
   NebularFormInputsComponent,
-  NebularSelectComponent
+  NebularSelectComponent,
 ];
 
 const MODULES = [
@@ -53,11 +52,7 @@ const MODULES = [
 ];
 
 @NgModule({
-  imports: [
-    ...MODULES,
-  ],
-  declarations: [
-    ...COMPONENTS,
-  ],
+  imports: [...MODULES],
+  declarations: [...COMPONENTS],
 })
-export class ExtraComponentsModule { }
+export class ExtraComponentsModule {}

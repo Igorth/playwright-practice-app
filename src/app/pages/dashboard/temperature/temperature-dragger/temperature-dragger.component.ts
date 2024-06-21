@@ -8,22 +8,21 @@ import {
   EventEmitter,
   AfterViewInit,
   OnChanges,
-} from '@angular/core';
-import { Location, LocationStrategy } from '@angular/common';
+} from "@angular/core";
+import { Location, LocationStrategy } from "@angular/common";
 
 let uniqueId = 0;
 const VIEW_BOX_SIZE = 300;
 
 @Component({
-  selector: 'ngx-temperature-dragger',
-  templateUrl: './temperature-dragger.component.html',
-  styleUrls: ['./temperature-dragger.component.scss'],
+  selector: "ngx-temperature-dragger",
+  templateUrl: "./temperature-dragger.component.html",
+  styleUrls: ["./temperature-dragger.component.scss"],
 })
 export class TemperatureDraggerComponent implements AfterViewInit, OnChanges {
+  @ViewChild("svgRoot", { static: true }) svgRoot: ElementRef;
 
-  @ViewChild('svgRoot', { static: true }) svgRoot: ElementRef;
-
-  @Input() fillColors: string|string[];
+  @Input() fillColors: string | string[];
   @Input() disableArcColor;
   @Input() bottomAngle = 90;
   @Input() arcThickness = 18; // CSS pixels
@@ -35,7 +34,7 @@ export class TemperatureDraggerComponent implements AfterViewInit, OnChanges {
 
   value = 50;
   @Output() valueChange = new EventEmitter<Number>();
-  @Input('value') set setValue(value) {
+  @Input("value") set setValue(value) {
     this.value = value;
   }
 
@@ -45,18 +44,18 @@ export class TemperatureDraggerComponent implements AfterViewInit, OnChanges {
 
   @Output() power = new EventEmitter<boolean>();
 
-  @HostListener('window:mouseup', ['$event'])
+  @HostListener("window:mouseup", ["$event"])
   onMouseUp(event) {
     this.recalculateValue(event);
     this.isMouseDown = false;
   }
 
-  @HostListener('window:mousemove', ['$event'])
+  @HostListener("window:mousemove", ["$event"])
   onMouseMove(event: MouseEvent) {
     this.recalculateValue(event);
   }
 
-  @HostListener('window:resize', ['$event'])
+  @HostListener("window:resize", ["$event"])
   onResize(event) {
     this.invalidate();
   }
@@ -75,9 +74,9 @@ export class TemperatureDraggerComponent implements AfterViewInit, OnChanges {
   colors: any = [];
 
   styles = {
-    viewBox: '0 0 300 300',
-    arcTranslateStr: 'translate(0, 0)',
-    clipPathStr: '',
+    viewBox: "0 0 300 300",
+    arcTranslateStr: "translate(0, 0)",
+    clipPathStr: "",
     gradArcs: [],
     nonSelectedArc: {},
     thumbPosition: { x: 0, y: 0 },
@@ -130,8 +129,8 @@ export class TemperatureDraggerComponent implements AfterViewInit, OnChanges {
   }
 
   getUrlPath(id: string) {
-    const baseHref = this.locationStrategy.getBaseHref().replace(/\/$/, '');
-    const path = this.location.path().replace(/\/$/, '');
+    const baseHref = this.locationStrategy.getBaseHref().replace(/\/$/, "");
+    const path = this.location.path().replace(/\/$/, "");
 
     return `url(${baseHref}${path}${id}${this.svgControlId})`;
   }
@@ -152,28 +151,34 @@ export class TemperatureDraggerComponent implements AfterViewInit, OnChanges {
 
   private calculateVars() {
     this.bottomAngleRad = TemperatureDraggerComponent.toRad(this.bottomAngle);
-    this.colors = (typeof this.fillColors === 'string') ? [this.fillColors] : this.fillColors;
+    this.colors =
+      typeof this.fillColors === "string" ? [this.fillColors] : this.fillColors;
 
     const halfAngle = this.bottomAngleRad / 2;
 
     const svgBoundingRect = this.svgRoot.nativeElement.getBoundingClientRect();
-    const svgAreaFactor = svgBoundingRect.height && svgBoundingRect.width / svgBoundingRect.height || 1;
+    const svgAreaFactor =
+      (svgBoundingRect.height &&
+        svgBoundingRect.width / svgBoundingRect.height) ||
+      1;
     const svgHeight = VIEW_BOX_SIZE / svgAreaFactor;
     const thumbMaxRadius = this.thumbRadius + this.thumbBorder;
-    const thumbMargin = 2 * thumbMaxRadius > this.arcThickness
-      ? (thumbMaxRadius - this.arcThickness / 2) / this.scaleFactor
-      : 0;
+    const thumbMargin =
+      2 * thumbMaxRadius > this.arcThickness
+        ? (thumbMaxRadius - this.arcThickness / 2) / this.scaleFactor
+        : 0;
 
     this.scaleFactor = svgBoundingRect.width / VIEW_BOX_SIZE || 1;
     this.styles.viewBox = `0 0 ${VIEW_BOX_SIZE} ${svgHeight}`;
 
-
-    const circleFactor = this.bottomAngleRad <= Math.PI
-      ? ( 2 / (1 + Math.cos(halfAngle)) )
-      : ( 2 * Math.sin(halfAngle) / (1 + Math.cos(halfAngle)) );
+    const circleFactor =
+      this.bottomAngleRad <= Math.PI
+        ? 2 / (1 + Math.cos(halfAngle))
+        : (2 * Math.sin(halfAngle)) / (1 + Math.cos(halfAngle));
     if (circleFactor > svgAreaFactor) {
       if (this.bottomAngleRad > Math.PI) {
-        this.radius = (VIEW_BOX_SIZE - 2 * thumbMargin) / (2 * Math.sin(halfAngle));
+        this.radius =
+          (VIEW_BOX_SIZE - 2 * thumbMargin) / (2 * Math.sin(halfAngle));
       } else {
         this.radius = VIEW_BOX_SIZE / 2 - thumbMargin;
       }
@@ -182,7 +187,8 @@ export class TemperatureDraggerComponent implements AfterViewInit, OnChanges {
     }
 
     this.translateXValue = VIEW_BOX_SIZE / 2 - this.radius;
-    this.translateYValue = (svgHeight) / 2 - this.radius * (1 + Math.cos(halfAngle)) / 2;
+    this.translateYValue =
+      svgHeight / 2 - (this.radius * (1 + Math.cos(halfAngle))) / 2;
 
     this.styles.arcTranslateStr = `translate(${this.translateXValue}, ${this.translateYValue})`;
 
@@ -222,9 +228,8 @@ export class TemperatureDraggerComponent implements AfterViewInit, OnChanges {
         radius: innerRadius,
       },
       thickness: this.thickness,
-      big: this.bottomAngleRad < Math.PI ? '1' : '0',
+      big: this.bottomAngleRad < Math.PI ? "1" : "0",
     };
-
   }
 
   private invalidateClipPathStr() {
@@ -255,7 +260,7 @@ export class TemperatureDraggerComponent implements AfterViewInit, OnChanges {
        ${s.outer.start.x},${s.outer.start.y}`;
 
     // Close path
-    path += ' Z';
+    path += " Z";
     this.styles.clipPathStr = path;
   }
 
@@ -272,10 +277,17 @@ export class TemperatureDraggerComponent implements AfterViewInit, OnChanges {
 
     const gradArray = [];
 
-    for (let i = 0, currentAngle = this.bottomAngleRad / 2; i < this.colors.length; i++, currentAngle += angleStep) {
+    for (
+      let i = 0, currentAngle = this.bottomAngleRad / 2;
+      i < this.colors.length;
+      i++, currentAngle += angleStep
+    ) {
       gradArray.push({
         start: { x: calcX(currentAngle), y: calcY(currentAngle) },
-        end: { x: calcX(currentAngle + angleStep), y: calcY(currentAngle + angleStep) },
+        end: {
+          x: calcX(currentAngle + angleStep),
+          y: calcY(currentAngle + angleStep),
+        },
         big: Math.PI <= angleStep ? 1 : 0,
       });
     }
@@ -311,13 +323,15 @@ export class TemperatureDraggerComponent implements AfterViewInit, OnChanges {
   }
 
   private invalidateNonSelectedArc() {
-    const angle = this.bottomAngleRad / 2 + (1 - this.getValuePercentage()) * (2 * Math.PI - this.bottomAngleRad);
+    const angle =
+      this.bottomAngleRad / 2 +
+      (1 - this.getValuePercentage()) * (2 * Math.PI - this.bottomAngleRad);
     this.styles.nonSelectedArc = {
       color: this.disableArcColor,
       d: `M ${this.radius},${this.radius}
        L ${this.radius},${3 * this.radius}
        A ${2 * this.radius},${2 * this.radius}
-       1 ${angle > Math.PI ? '1' : '0'} 0
+       1 ${angle > Math.PI ? "1" : "0"} 0
        ${this.radius + this.radius * 2 * Math.sin(angle)},${this.radius + this.radius * 2 * Math.cos(angle)}
        Z`,
     };
@@ -326,7 +340,9 @@ export class TemperatureDraggerComponent implements AfterViewInit, OnChanges {
   private invalidatePinPosition() {
     const radiusOffset = this.thickness / 2;
     const curveRadius = this.radius - radiusOffset;
-    const actualAngle = (2 * Math.PI - this.bottomAngleRad) * this.getValuePercentage() + this.bottomAngleRad / 2;
+    const actualAngle =
+      (2 * Math.PI - this.bottomAngleRad) * this.getValuePercentage() +
+      this.bottomAngleRad / 2;
     this.styles.thumbPosition = {
       x: curveRadius * (1 - Math.sin(actualAngle)) + radiusOffset,
       y: curveRadius * (1 + Math.cos(actualAngle)) + radiusOffset,
@@ -338,10 +354,13 @@ export class TemperatureDraggerComponent implements AfterViewInit, OnChanges {
     if (this.isMouseDown && !this.off) {
       const rect = this.svgRoot.nativeElement.getBoundingClientRect();
       const center = {
-        x: rect.left + VIEW_BOX_SIZE * this.scaleFactor / 2,
+        x: rect.left + (VIEW_BOX_SIZE * this.scaleFactor) / 2,
         y: rect.top + (this.translateYValue + this.radius) * this.scaleFactor,
       };
-      let actualAngle = Math.atan2(center.x - event.clientX, event.clientY - center.y);
+      let actualAngle = Math.atan2(
+        center.x - event.clientX,
+        event.clientY - center.y,
+      );
       if (actualAngle < 0) {
         actualAngle = actualAngle + 2 * Math.PI;
       }
@@ -353,12 +372,18 @@ export class TemperatureDraggerComponent implements AfterViewInit, OnChanges {
       } else if (actualAngle > 2 * Math.PI - this.bottomAngleRad / 2) {
         relativeValue = 1;
       } else {
-        relativeValue = (actualAngle - this.bottomAngleRad / 2) / (2 * Math.PI - this.bottomAngleRad);
+        relativeValue =
+          (actualAngle - this.bottomAngleRad / 2) /
+          (2 * Math.PI - this.bottomAngleRad);
       }
 
       const value = this.toValueNumber(relativeValue);
 
-      if (this.value !== value && (allowJumping || Math.abs(relativeValue - previousRelativeValue) < this.maxLeap)) {
+      if (
+        this.value !== value &&
+        (allowJumping ||
+          Math.abs(relativeValue - previousRelativeValue) < this.maxLeap)
+      ) {
         this.value = value;
         this.valueChange.emit(this.value);
         this.invalidatePinPosition();
@@ -371,10 +396,13 @@ export class TemperatureDraggerComponent implements AfterViewInit, OnChanges {
   }
 
   private toValueNumber(factor) {
-    return Math.round(factor * (this.max - this.min) / this.step) * this.step + this.min;
+    return (
+      Math.round((factor * (this.max - this.min)) / this.step) * this.step +
+      this.min
+    );
   }
 
   private static toRad(angle) {
-    return Math.PI * angle / 180;
+    return (Math.PI * angle) / 180;
   }
 }
