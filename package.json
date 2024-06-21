@@ -10,7 +10,8 @@
     "ng": "ng",
     "start": "ng serve",
     "lint:check": "prettier --check .",
-    "lint:fix": "prettier --write ."
+    "lint:fix": "prettier --write .",
+    "test:ui": "npx playwright test --ui"
   },
   "dependencies": {
     "@angular/animations": "^14.2.12",

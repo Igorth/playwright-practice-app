@@ -2,30 +2,31 @@ import { expect, test } from "@playwright/test";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("http://localhost:4200");
+  await page.getByText("Forms").click();
+  await page.getByText("Form Layouts").click();
 });
 
-test.describe("Test suite 1", () => {
-  test.beforeEach(async ({ page }) => {
-    await page.getByText("Forms").click();
-  });
-  test("Click on Form Layouts", async ({ page }) => {
-    await page.getByText("Form Layouts").click();
+test.describe("Test Suite 1", () => {
+  test("Locators syntax rules", async ({ page }) => {
+    //by Tag name
+    page.locator("input");
 
-    await expect(page.getByText("Inline form")).toBeVisible();
-  });
+    //by ID
+    await page.locator("#inputEmail1").click();
 
-  test("Click on Datepicker", async ({ page }) => {
-    await page.getByText("Datepicker").click();
+    //by Class
+    page.locator(".shape-rectangle");
 
-    await expect(page.getByText("Common Datepicker")).toBeVisible();
-  });
-});
+    //by Attribute
+    page.locator('[placeholder="Email"]');
 
-test.describe("Test Suite 2", () => {
-  test.beforeEach(async ({ page }) => {
-    await page.getByText("Charts", { exact: true }).click();
-  });
-  test("Testing if beforeEach will works here", async ({ page }) => {
-    await page.getByText("Echarts").click();
+    //by combine different selectors
+    page.locator('input[placeholder="Email"]');
+
+    //by partial text match
+    page.locator(':text("Using")');
+
+    //by exact text match
+    page.locator(':text-is("Using the Grid")');
   });
 });
