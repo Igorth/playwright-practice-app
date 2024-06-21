@@ -29,4 +29,25 @@ test.describe("Test Suite 1", () => {
     //by exact text match
     page.locator(':text-is("Using the Grid")');
   });
+
+  test("User facing locators", async ({ page }) => {
+    //getByRole
+    await page.getByRole("textbox", { name: "Email" }).first().click();
+    await page.getByRole("button", { name: "Sign in" }).first().click();
+
+    //getByLabel
+    await page.getByLabel("Email").first().fill("test@test.ca");
+
+    //getByPlaceholder
+    await page.getByPlaceholder("Jane Doe").fill("John Doe");
+
+    //getByText
+    await page.getByText("Using the Grid").click();
+
+    //getByTitle
+    await page.getByTitle("IoT Dashboard").click();
+
+    //getByTestId
+    await page.getByTestId("Header").click();
+  });
 });
