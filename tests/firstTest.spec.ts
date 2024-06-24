@@ -50,4 +50,27 @@ test.describe("Test Suite 1", () => {
     //getByTestId
     await page.getByTestId("Header").click();
   });
+
+  test("Locating child elements", async ({ page }) => {
+    //find the child with the same locator
+    await page.locator('nb-card nb-radio :text-is("Option 1")').check();
+
+    //chaning one by one
+    await page
+      .locator("nb-card")
+      .locator("nb-radio")
+      .locator(":text-is('Option 2')")
+      .check();
+
+    await page.locator('nb-card input[id="inputPassword2"]').fill("123");
+
+    await page
+      .locator("nb-card")
+      .getByRole("button", { name: "Sign in" })
+      .first()
+      .click();
+
+    //index of the element // try to avoid this aproach
+    await page.locator("nb-card").nth(3).getByRole("button").click();
+  });
 });
