@@ -108,4 +108,20 @@ test.describe("Test Suite 1", () => {
       .getByRole("textbox", { name: "Email" })
       .fill("horizontal@form.ca");
   });
+
+  test("Reusing the locators", async ({ page }) => {
+    const basicForm = page.locator("nb-card").filter({ hasText: "Basic form" });
+    const emailField = basicForm.getByRole("textbox", { name: "Email" });
+
+    await emailField.fill("basic@form.ca");
+
+    await basicForm.getByRole("textbox", { name: "Password" }).fill("123");
+
+    await basicForm.locator("nb-checkbox").click();
+
+    await basicForm.getByRole("button").click();
+
+    await expect(page.getByLabel("Check me out")).toBeChecked();
+    await expect(emailField).toHaveValue("basic@form.ca");
+  });
 });
