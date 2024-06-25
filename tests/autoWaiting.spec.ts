@@ -39,3 +39,10 @@ test("Alternative waits", async ({ page }) => {
   const text = await successButton.allTextContents();
   expect(text).toContain("Data loaded with AJAX get request.");
 });
+
+test("Timeouts", async ({ page }) => {
+  //test.setTimeout(10000);
+  test.slow(); // multiply the timeout by 3 in the playwright.config
+  const successButton = page.locator(".bg-success");
+  await successButton.click();
+});
