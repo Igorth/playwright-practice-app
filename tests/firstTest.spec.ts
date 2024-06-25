@@ -73,4 +73,39 @@ test.describe("Test Suite 1", () => {
     //index of the element // try to avoid this aproach
     await page.locator("nb-card").nth(3).getByRole("button").click();
   });
+
+  test("Locating Parent elements", async ({ page }) => {
+    await page
+      .locator("nb-card", { hasText: "Using the Grid" })
+      .getByRole("button")
+      .click();
+
+    await page
+      .locator("nb-card", { has: page.locator("#inputEmail1") })
+      .getByRole("textbox", { name: "Email" })
+      .fill("usingthe@grid");
+
+    //FILTER, you can chain multiple filters one by one
+    await page
+      .locator("nb-card")
+      .filter({ hasText: "Basic form" })
+      .getByRole("textbox", { name: "Email" })
+      .fill("basic@form");
+
+    await page
+      .locator("nb-card")
+      .filter({ has: page.locator(".status-danger") })
+      .getByRole("button")
+      .click();
+
+    //getByRole does not have a filter
+    //Change multiple filters one by one
+
+    await page
+      .locator("nb-card")
+      .filter({ has: page.locator("nb-checkbox") })
+      .filter({ hasText: "Sign in" })
+      .getByRole("textbox", { name: "Email" })
+      .fill("horizontal@form.ca");
+  });
 });
