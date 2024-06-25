@@ -124,4 +124,31 @@ test.describe("Test Suite 1", () => {
     await expect(page.getByLabel("Check me out")).toBeChecked();
     await expect(emailField).toHaveValue("basic@form.ca");
   });
+
+  test("Extracting values", async ({ page }) => {
+    //Single text value
+    const basicForm = page.locator("nb-card").filter({ hasText: "Basic form" });
+    //Pega o texto do botão que é Submit e coloca dentro da variavel
+    const buttonText = await basicForm.locator("button").textContent();
+
+    expect(buttonText).toEqual("Submit");
+
+    //All text values
+    const allRadioButtonsLabels = await page
+      .locator("nb-radio")
+      .allTextContents();
+
+    expect(allRadioButtonsLabels).toContain("Option 1");
+
+    //Input value
+    const emailField = basicForm.getByRole("textbox", { name: "Email" });
+    await emailField.fill("test@test.ca");
+    const emailValue = await emailField.inputValue();
+
+    expect(emailValue).toEqual("test@test.ca");
+
+    //Get the attribute
+    const placeholderValue = await emailField.getAttribute("placeholder");
+    expect(placeholderValue).toEqual("Email");
+  });
 });
