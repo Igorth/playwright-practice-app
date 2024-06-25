@@ -151,4 +151,26 @@ test.describe("Test Suite 1", () => {
     const placeholderValue = await emailField.getAttribute("placeholder");
     expect(placeholderValue).toEqual("Email");
   });
+
+  test("Assertions", async ({ page }) => {
+    //General Assertions
+    const value = 5;
+    expect(value).toEqual(5);
+
+    const basicFormButton = page
+      .locator("nb-card")
+      .filter({ hasText: "Basic form" })
+      .locator("button");
+
+    const textButton = await basicFormButton.textContent();
+    expect(textButton).toEqual("Submit");
+
+    //Locator Assertions
+    await expect(basicFormButton).toHaveText("Submit");
+
+    //Soft Assertion
+    //Continue execution even the assertion failed
+    await expect.soft(basicFormButton).toHaveText("Submit");
+    await basicFormButton.click();
+  });
 });
