@@ -31,4 +31,30 @@ test.describe("Form Layouts page", () => {
     //Locator Assertion
     await expect(usingTheGridEmailInput).toHaveValue("using2@grid.ca");
   });
+
+  test("Radio buttons", async ({ page }) => {
+    const usingTheGridForm = page.locator("nb-card", {
+      hasText: "Using the Grid",
+    });
+
+    //If force:true we disabled the HID command
+    await page.getByLabel("Option 1").check({ force: true });
+    const radioStatusButtonOne = page.getByLabel("Option 1").isChecked();
+    //Generic Assertion
+    expect(radioStatusButtonOne).toBeTruthy();
+
+    await page.getByRole("radio", { name: "Option 2" }).check({ force: true });
+    //Locator Assertion
+    await expect(
+      usingTheGridForm.getByRole("radio", { name: "Option 2" }),
+    ).toBeChecked();
+
+    //Generic Assertion
+    expect(
+      await page.getByRole("radio", { name: "Option 1" }).isChecked(),
+    ).toBeFalsy();
+    expect(
+      await page.getByRole("radio", { name: "Option 2" }).isChecked(),
+    ).toBeTruthy();
+  });
 });
