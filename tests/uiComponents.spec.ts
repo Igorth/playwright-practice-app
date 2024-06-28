@@ -58,3 +58,23 @@ test.describe("Form Layouts page", () => {
     ).toBeTruthy();
   });
 });
+
+test.describe("Toastr page", () => {
+  test.beforeEach(async ({ page }) => {
+    await page.getByText("Modal & Overlays").click();
+    await page.getByText("Toastr").click();
+  });
+
+  test("Checkboxes", async ({ page }) => {
+    await page.getByLabel("Hide on click").uncheck({ force: true });
+    await page
+      .getByRole("checkbox", { name: "Prevent arising of duplicate toast" })
+      .check({ force: true });
+
+    const allCheckBoxes = page.getByRole("checkbox");
+    for (const box of await allCheckBoxes.all()) {
+      await box.check({ force: true });
+      expect(await box.isChecked()).toBeTruthy();
+    }
+  });
+});
